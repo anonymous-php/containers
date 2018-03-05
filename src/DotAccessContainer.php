@@ -2,11 +2,14 @@
 
 namespace Anonymous\Containers;
 
+use Anonymous\Containers\Exceptions\NotFoundException;
+
 
 /**
  * Accepts dot key notation to access to elements of the multidimensional array of definitions.
  * Useful for configs for example.
  * @package Anonymous\Containers
+ * @author Anonymous PHP Developer <anonym.php@gmail.com>
  */
 class DotAccessContainer extends ArrayContainer
 {
@@ -19,7 +22,7 @@ class DotAccessContainer extends ArrayContainer
         list($has, $value) = $this->find($this->definitions, $id);
 
         if (!$has) {
-            throw new NotFoundException();
+            throw new NotFoundException("No entry found for '{$id}'");
         }
 
         return $value;

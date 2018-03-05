@@ -1,6 +1,6 @@
 <?php
 
-namespace Anonymous\Containers;
+namespace Anonymous\Containers\Exceptions;
 
 
 use Psr\Container\NotFoundExceptionInterface;

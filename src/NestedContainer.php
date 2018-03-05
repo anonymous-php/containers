@@ -3,6 +3,8 @@
 namespace Anonymous\Containers;
 
 
+use Anonymous\Containers\Exceptions\ContainerNotFoundException;
+use Anonymous\Containers\Exceptions\NotFoundException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -18,9 +20,8 @@ class NestedContainer extends SettableContainer
     /** @var ContainerInterface[] */
     protected $containers = [];
 
-    protected $setDowngraded = false;
-
-    protected $useHasNested = false;
+    protected $saveIfFound = false;
+    protected $checkIfNestedHas = false;
 
     protected $useHasCache = false;
     protected $hasCacheLength = 100;
@@ -34,7 +35,7 @@ class NestedContainer extends SettableContainer
     public function has($id)
     {
         // Check cache
-        if ($this->useHasNested && $this->getHasCache($id) !== false) {
+        if ($this->checkIfNestedHas && $this->getHasCache($id) !== false) {
             return true;
         }
 
@@ -44,7 +45,7 @@ class NestedContainer extends SettableContainer
         }
 
         // Do we need to test nested
-        if (!$this->useHasNested) {
+        if (!$this->checkIfNestedHas) {
             return false;
         }
 
@@ -81,7 +82,7 @@ class NestedContainer extends SettableContainer
             try {
                 $value = $container->get($id);
 
-                if ($this->setDowngraded) {
+                if ($this->saveIfFound) {
                     parent::set($id, $value);
                     $index = null;
                 }
@@ -189,7 +190,7 @@ class NestedContainer extends SettableContainer
      * @param null $hasCacheLength
      * @return $this
      */
-    public function useHasCache($useHasCache = true, $hasCacheLength = null)
+    public function setUseHasCache($useHasCache = true, $hasCacheLength = null)
     {
         $this->useHasCache = (bool)$useHasCache;
 
@@ -202,24 +203,24 @@ class NestedContainer extends SettableContainer
 
     /**
      * Test has result on nested containers
-     * @param bool $useHasNested
+     * @param bool $checkIfNestedHas
      * @return $this
      */
-    public function useHasNested($useHasNested = true)
+    public function setCheckIfNestedHas($checkIfNestedHas = true)
     {
-        $this->useHasNested = $useHasNested;
+        $this->checkIfNestedHas = $checkIfNestedHas;
 
         return $this;
     }
 
     /**
-     * Sets the property setDowngraded
-     * @param bool $setDowngraded
+     * Sets the property saveIfFound
+     * @param bool $saveIfFound
      * @return $this
      */
-    public function setDowngraded($setDowngraded = true)
+    public function setSaveIfFound($saveIfFound = true)
     {
-        $this->setDowngraded = (bool)$setDowngraded;
+        $this->saveIfFound = (bool)$saveIfFound;
 
         return $this;
     }

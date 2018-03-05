@@ -3,6 +3,7 @@
 namespace Anonymous\Containers;
 
 
+use Anonymous\Containers\Exceptions\NotFoundException;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -30,8 +31,8 @@ class ArrayContainer implements ContainerInterface
      */
     public function get($id)
     {
-        if (!$this->has($id)) {
-            throw new NotFoundException();
+        if (!array_key_exists($id, $this->definitions)) {
+            throw new NotFoundException("No entry found for '{$id}'");
         }
 
         return $this->definitions[$id];
