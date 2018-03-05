@@ -157,10 +157,30 @@ class NestedContainer extends SettableContainer
     /**
      * Adds container to the collection
      * @param ContainerInterface $container
+     * @param string $name
      */
-    public function add(ContainerInterface $container)
+    public function add(ContainerInterface $container, $name = null)
     {
-        array_push($this->containers, $container);
+        if ($name !== null) {
+            $this->containers[$name] = $container;
+        } else {
+            array_push($this->containers, $container);
+        }
+    }
+
+    /**
+     * Gets named container
+     * @param $name
+     * @return ContainerInterface
+     * @throws ContainerNotFoundException
+     */
+    public function getContainer($name)
+    {
+        if (!array_key_exists($name, $this->containers)) {
+            throw new ContainerNotFoundException("No container with name '{$name}' found");
+        }
+
+        return $this->containers[$name];
     }
 
     /**
