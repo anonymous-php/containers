@@ -1,0 +1,27 @@
+{
+    "name": "anonymous-php/containers",
+    "type": "library",
+    "description": "Collection of simple but useful implementations of ContainerInterface from PSR-11",
+    "keywords": [
+        "container",
+        "psr-11"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Anonymous PHP Developer",
+            "email": "anonym.php@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Anonymous\\Containers\\": "src/"
+        }
+    },
+    "require": {
+        "psr/container": "^1.0"
+    },
+    "provide": {
+        "psr/container-implementation": "1.0"
+    }
+}
