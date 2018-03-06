@@ -170,6 +170,31 @@ class NestedContainer extends SettableContainer
     }
 
     /**
+     * Adds container to the end of the collection
+     * @param ContainerInterface $container
+     * @param string $name
+     */
+    public function addAppend(ContainerInterface $container, $name = null)
+    {
+        $this->add($container, $name);
+    }
+
+    /**
+     * Adds container to the beginning of the collection
+     * @param ContainerInterface $container
+     * @param string $name
+     */
+    public function addPrepend(ContainerInterface $container, $name = null)
+    {
+        if ($name !== null) {
+            unset($this->containers[$name]);
+            $this->containers = array_merge([$name => $container], $this->containers);
+        } else {
+            array_unshift($this->containers, $container);
+        }
+    }
+
+    /**
      * Gets named container
      * @param $name
      * @return ContainerInterface
